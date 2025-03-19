@@ -13,14 +13,13 @@
   })
 
 
-  // this will give errors but it works so ignore it
   async function get_times(){
     var location = await fetch("https://freeipapi.com/api/json")
-    location = await location.json()
-    aladhan_obj = await fetch(`https://api.aladhan.com/v1/timingsByAddress/${full_date}?address=${location.cityName}&method=${method}&timezonestring=${location.timeZones[0]}`)
+    var location_json = await location.json()
+    aladhan_obj = await fetch(`https://api.aladhan.com/v1/timingsByAddress/${full_date}?address=${location_json.cityName}&method=${method}&timezonestring=${location_json.timeZones[0]}`)
     aladhan_obj = await aladhan_obj.json()
     times = aladhan_obj.data.timings
-    console.log(new Date(date.getDay(),date.getMonth() +1,date.getFullYear()) > new Date())
+
   }
   get_times()
 </script>
