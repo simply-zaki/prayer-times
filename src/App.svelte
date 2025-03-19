@@ -1,9 +1,8 @@
 <script>
   let is_settings_open = $state(false)
-  let method = $state(localStorage.getItem("method") || "0")
+  let method = $state(localStorage.getItem("method") || "1")
   let date = new Date()
   let full_date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
-  let current_hour = `${date.getHours()}:${date.getMinutes()}`
   let aladhan_obj = $state()
   let current_prayer = $state("fajr")
   let times = $state()
@@ -19,13 +18,35 @@
     aladhan_obj = await fetch(`https://api.aladhan.com/v1/timingsByAddress/${full_date}?address=${location_json.cityName}&method=${method}&timezonestring=${location_json.timeZones[0]}`)
     aladhan_obj = await aladhan_obj.json()
     times = aladhan_obj.data.timings
+    if (date.getHours() >= parseInt(times.Isha.split(":")[0])){
+      current_prayer = "isha"
+    }
 
+    if (date.getHours() >= parseInt(times.Maghrib.split(":")[0])){
+      current_prayer = "maghrib"
+      return
+    }
+
+    if (date.getHours() >= parseInt(times.Asr.split(":")[0])){
+      current_prayer = "asr"
+      return
+    }
+
+    if (date.getHours() >= parseInt(times.Dhuhr.split(":")[0])){
+      current_prayer = "dhuhr"
+      return
+    }
+
+    if (date.getHours() >= parseInt(times.Fajr.split(":")[0]) ){
+      current_prayer = "fajr"
+      return
+    }
   }
   get_times()
 </script>
 
 
-{#snippet prayer_time(prayer,icon,time)}
+{#snippet prayer_time(prayer = "fajr",icon = "/imgs/fajr.svg",time= "5:00")}
     <div class="border shadow-black shadow-md flex flex-col gap-1 items-center border-slate-700 text-slate-300 bg-slate-900 w-30 rounded-lg py-2 px-4" >
         <img src={icon} class="size-7" alt="prayer_time_icon">
         {prayer}
@@ -33,7 +54,7 @@
     </div>
 {/snippet}
 
-<main class="fajr relative w-screen h-screen overflow-x-hidden">
+<main class={`${current_prayer} relative w-screen h-screen overflow-x-hidden`}>
     <h1 class="text-4xl text-center my-4">Prayer times</h1>
     {#if times}
         <span class="flex flex-col gap-4 items-center">
