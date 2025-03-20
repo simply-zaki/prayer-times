@@ -1,16 +1,38 @@
 @import "tailwindcss";
 .fajr{
-    @apply bg-gradient-to-b from-indigo-900 to-slate-900
+    @apply bg-gradient-to-b from-zinc-900 to-indigo-900
 }
 .dhuhr{
- @apply bg-gradient-to-b from-emerald-200 to-yellow-50
+ @apply bg-gradient-to-b from-cyan-200 via-gray-200 to-cyan-300
 }
 .asr{
- @apply bg-gradient-to-b from-emerald-200 to-yellow-200
+ @apply bg-gradient-to-b from-gray-400 to-blue-400
 }
 .maghrib{
-@apply bg-gradient-to-b from-blue-800 to-slate-400
+@apply bg-gradient-to-b from-indigo-600 to-orange-400
 }
 .isha{
-    @apply bg-gradient-to-b from-slate-900 to-slate-700
+    @apply bg-gradient-to-b from-gray-900 to-gray-700
+}
+.dark{
+    @apply text-zinc-300
+}
+.light{
+    @apply text-zinc-800
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: oklch(0.554 0.046 257.417);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.446 0.043 257.281);
 }
